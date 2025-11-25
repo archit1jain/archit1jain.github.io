@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Time Table & Calendar — Archit Jain</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <meta name="description" content="Interactive calendar and time table by Archit Jain." />
+  <style>
+    .calendar { max-width: 350px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #0001; padding: 1rem; }
+    .calendar table { width: 100%; border-collapse: collapse; }
+    .calendar th, .calendar td { text-align: center; padding: 0.5rem; }
+    .calendar th { background: #f7f7f7; }
+    .calendar td { cursor: pointer; border-radius: 4px; }
+    .calendar td.selected { background: #1766d1; color: #fff; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="/">Archit Jain</a></h1>
+      <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+  <a href="/gym/">Gym</a>
+  <a href="/gym/diet/">Diet</a>
+  <a href="/gym/routine/">Routine</a>
+  <a href="/blog/">Blog</a>
+  <a href="/tech/">Tech</a>
+  <a href="/thoughts/">Thoughts</a>
+  <a href="/time-table/">Time-table</a>
+  <a href="/linkedin/">LinkedIn</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container paper">
+    <section class="hero">
+      <h2>Time Table & Interactive Calendar</h2>
+      <p class="subtitle">Plan your days, track habits, and stay organized with this interactive calendar.</p>
+    </section>
+    <section>
+      <div class="calendar" id="calendar"></div>
+      <div class="timeline" id="timeline" style="max-width:350px;margin:2rem auto 0 auto;background:#f9f9f9;border-radius:10px;padding:1rem;box-shadow:0 1px 4px #0001;">
+        <h4 style="margin:0 0 0.5rem 0;">Day Timeline</h4>
+        <div id="timeline-hours" style="display:flex;flex-direction:column;gap:0.2rem;"></div>
+      </div>
+      <div class="todo-list" id="todo-list" style="max-width:350px;margin:2rem auto 0 auto;background:#fff;border-radius:10px;padding:1rem;box-shadow:0 1px 4px #0001;">
+        <h4 style="margin:0 0 0.5rem 0;">To-Do List for <span id="todo-date-label"></span></h4>
+        <form id="todo-form" style="display:flex;gap:0.5rem;margin-bottom:0.5rem;">
+          <input type="text" id="todo-input" placeholder="Add a task..." style="flex:1;padding:0.3rem 0.5rem;border-radius:4px;border:1px solid #ddd;" required />
+          <button type="submit">Add</button>
+        </form>
+        <ul id="todo-items" style="list-style:disc inside;margin:0;padding:0;"></ul>
+      </div>
+      <script>
+        // Calendar
+        let selectedDay, selectedMonth, selectedYear;
+        function renderCalendar(month, year) {
+          const calendar = document.getElementById('calendar');
+          const date = new Date(year, month);
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          let html = `<h3>${monthName} ${year}</h3><table><tr>`;
+          const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+          for (let d of days) html += `<th>${d}</th>`;
+          html += '</tr><tr>';
+          let firstDay = new Date(year, month, 1).getDay();
+          let daysInMonth = new Date(year, month+1, 0).getDate();
+          for (let i=0; i<firstDay; i++) html += '<td></td>';
+          let day = 1;
+          for (let i=firstDay; day<=daysInMonth; i++) {
+            if (i%7===0 && day>1) html += '</tr><tr>';
+            html += `<td data-day="${day}">${day}</td>`;
+            day++;
+          }
+          html += '</tr></table>';
+          calendar.innerHTML = html;
+          // Add click handler
+          calendar.querySelectorAll('td[data-day]').forEach(td => {
+            td.onclick = function() {
+              calendar.querySelectorAll('td').forEach(cell => cell.classList.remove('selected'));
+              td.classList.add('selected');
+              selectedDay = parseInt(td.getAttribute('data-day'));
+              selectedMonth = month;
+              selectedYear = year;
+              renderTimeline(selectedDay);
+              renderTodoList(selectedDay, selectedMonth, selectedYear);
+            };
+          });
+        }
+        // Timeline
+        function renderTimeline(day) {
+          const timeline = document.getElementById('timeline-hours');
+          let html = '';
+          for (let h=6; h<=22; h++) {
+            let hour = h < 10 ? '0'+h : h;
+            html += `<div style='display:flex;align-items:center;gap:0.5rem;'><span style='width:2.5rem;display:inline-block;'>${hour}:00</span><input type='text' placeholder='Add activity...' style='flex:1;padding:0.2rem 0.4rem;border-radius:4px;border:1px solid #ddd;'/></div>`;
+          }
+          timeline.innerHTML = html;
+        }
+        // To-Do List
+        function todoKey(day, month, year) {
+          return `todo-${year}-${month+1}-${day}`;
+        }
+        function renderTodoList(day, month, year) {
+          const label = document.getElementById('todo-date-label');
+          label.textContent = `${year}-${(month+1).toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}`;
+          const ul = document.getElementById('todo-items');
+          ul.innerHTML = '';
+          const key = todoKey(day, month, year);
+          const items = JSON.parse(localStorage.getItem(key) || '[]');
+          items.forEach((item, idx) => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            li.style.cursor = 'pointer';
+            li.title = 'Click to remove';
+            li.onclick = function() {
+              items.splice(idx, 1);
+              localStorage.setItem(key, JSON.stringify(items));
+              renderTodoList(day, month, year);
+            };
+            ul.appendChild(li);
+          });
+        }
+        document.getElementById('todo-form').onsubmit = function(e) {
+          e.preventDefault();
+          if (!selectedDay) return;
+          const input = document.getElementById('todo-input');
+          const val = input.value.trim();
+          if (!val) return;
+          const key = todoKey(selectedDay, selectedMonth, selectedYear);
+          const items = JSON.parse(localStorage.getItem(key) || '[]');
+          items.push(val);
+          localStorage.setItem(key, JSON.stringify(items));
+          input.value = '';
+          renderTodoList(selectedDay, selectedMonth, selectedYear);
+        };
+        // Init
+        const now = new Date();
+        selectedDay = now.getDate();
+        selectedMonth = now.getMonth();
+        selectedYear = now.getFullYear();
+        renderCalendar(selectedMonth, selectedYear);
+        renderTimeline(selectedDay);
+        renderTodoList(selectedDay, selectedMonth, selectedYear);
+      </script>
+      <p style="text-align:center; margin-top:1rem;">Click a date to view or plan your day. Enter activities in the timeline or add to-dos below. To remove a to-do, click it.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <nav class="footer-links">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/gym/">Gym</a>
+        <a href="/gym/diet/">Diet</a>
+        <a href="/gym/routine/">Routine</a>
+        <a href="/blog/">Blog</a>
+        <a href="/tech/">Tech</a>
+        <a href="/thoughts/">Thoughts</a>
+        <a href="/time-table/">Time-table</a>
+        <a href="/linkedin/">LinkedIn</a>
+      </nav>
+      <p style="margin-top:0.6rem;">© 2025 — Archit Jain. Made with ♥ — static HTML &amp; CSS.</p>
+    </div>
+  </footer>
+</body>
+</html>

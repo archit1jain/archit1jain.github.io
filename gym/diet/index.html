@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diet Planner & Calorie Calculator — Archit Jain</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <meta name="description" content="Customizable diet plans and calorie calculator by Archit Jain." />
+  <style>
+    .diet-table { width:100%; border-collapse:collapse; margin:1.5rem 0; }
+    .diet-table th, .diet-table td { border:1px solid #ddd; padding:0.5rem; text-align:left; }
+    .diet-table th { background:#f7f7f7; }
+    .diet-calc { margin:1.5rem 0; padding:1rem; background:#f9f9f9; border-radius:8px; }
+    .diet-calc label { display:block; margin:0.5rem 0 0.2rem; }
+    .diet-calc input { margin-bottom:0.5rem; }
+    .diet-calc-result { font-weight:bold; margin-top:0.5rem; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title"><a href="/">Archit Jain</a></h1>
+      <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+  <a href="/gym/">Gym</a>
+  <a href="/gym/diet/">Diet</a>
+  <a href="/gym/routine/">Routine</a>
+  <a href="/blog/">Blog</a>
+  <a href="/tech/">Tech</a>
+  <a href="/thoughts/">Thoughts</a>
+  <a href="/time-table/">Time-table</a>
+  <a href="/linkedin/">LinkedIn</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container paper">
+    <section class="hero">
+      <h2>Diet Planner & Calorie Calculator</h2>
+      <p class="subtitle">Customize your diet and calculate your daily calorie needs. Choose from sample diets or build your own!</p>
+    </section>
+    <section class="diet-calc">
+      <h3>Calorie Calculator</h3>
+      <form id="calorieForm" onsubmit="event.preventDefault(); calcCalories();">
+        <label>Weight (kg): <input type="number" id="weight" min="30" max="200" required></label>
+        <label>Height (cm): <input type="number" id="height" min="120" max="250" required></label>
+        <label>Age: <input type="number" id="age" min="10" max="100" required></label>
+        <label>Gender:
+          <select id="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </label>
+        <label>Activity Level:
+          <select id="activity">
+            <option value="1.2">Sedentary</option>
+            <option value="1.375">Lightly active</option>
+            <option value="1.55">Moderately active</option>
+            <option value="1.725">Very active</option>
+            <option value="1.9">Extra active</option>
+          </select>
+        </label>
+        <button type="submit">Calculate</button>
+      </form>
+      <div class="diet-calc-result" id="calorieResult"></div>
+      <script>
+        function calcCalories() {
+          var w = parseFloat(document.getElementById('weight').value);
+          var h = parseFloat(document.getElementById('height').value);
+          var a = parseFloat(document.getElementById('age').value);
+          var g = document.getElementById('gender').value;
+          var act = parseFloat(document.getElementById('activity').value);
+          var bmr = g === 'male' ? (10*w + 6.25*h - 5*a + 5) : (10*w + 6.25*h - 5*a - 161);
+          var cal = Math.round(bmr * act);
+          document.getElementById('calorieResult').textContent = 'Estimated daily calories: ' + cal + ' kcal';
+        }
+      </script>
+    </section>
+    <section>
+      <h3>Sample Diets</h3>
+      <table class="diet-table">
+        <tr><th>Diet</th><th>Breakfast</th><th>Lunch</th><th>Dinner</th><th>Snacks</th><th>Total Calories</th></tr>
+        <tr><td>Weight Loss</td><td>Oats, Egg Whites</td><td>Grilled Chicken, Veggies</td><td>Paneer, Salad</td><td>Fruits, Nuts</td><td>1500</td></tr>
+        <tr><td>Muscle Gain</td><td>Omelette, Toast</td><td>Rice, Chicken, Dal</td><td>Fish, Quinoa</td><td>Banana, Peanut Butter</td><td>2500</td></tr>
+        <tr><td>Vegetarian</td><td>Poha, Milk</td><td>Dal, Roti, Sabzi</td><td>Paneer, Rice</td><td>Chana, Fruits</td><td>1800</td></tr>
+      </table>
+      <p>Adjust portions and food choices as per your needs. For a fully custom plan, use the calculator above and consult a nutritionist for best results.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <nav class="footer-links">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/gym/">Gym</a>
+        <a href="/gym/diet/">Diet</a>
+        <a href="/gym/routine/">Routine</a>
+        <a href="/blog/">Blog</a>
+        <a href="/tech/">Tech</a>
+        <a href="/thoughts/">Thoughts</a>
+        <a href="/time-table/">Time-table</a>
+        <a href="/linkedin/">LinkedIn</a>
+      </nav>
+      <p style="margin-top:0.6rem;">© 2025 — Archit Jain. Made with ♥ — static HTML &amp; CSS.</p>
+    </div>
+  </footer>
+</body>
+</html>
