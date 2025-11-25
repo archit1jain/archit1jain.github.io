@@ -58,6 +58,11 @@ body{
 
 .meta{font-size:0.9rem;color:var(--muted);margin:0.2rem 0}
 
+/* author byline for posts */
+.byline{font-size:0.95rem;color:var(--muted);margin:0.25rem 0 1rem}
+
+.post-footer{margin-top:2rem;border-top:1px dashed rgba(0,0,0,0.04);padding-top:0.75rem;color:var(--muted);font-size:0.95rem}
+
 article{font-size:1.12rem}
 article h2{font-size:1.55rem;margin-top:0}
 article h3{font-size:1.15rem}
