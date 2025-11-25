@@ -1,0 +1,84 @@
+/* Paper-like handwritten blog stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand:wght@400;700&display=swap');
+
+:root{
+  --bg:#f3efe8; /* warm paper background */
+  --paper:#fff;
+  --text:#222;
+  --muted:#6b6b6b;
+  --accent:#1766d1;
+  --max-width:760px;
+  --radius:12px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Patrick Hand', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+
+.container{max-width:var(--max-width);margin:2rem auto;padding:1rem}
+
+/* Header & nav (kept simple so handwriting stands out) */
+.site-header{border-bottom:1px solid rgba(0,0,0,0.06);padding:0}
+.site-title{margin:0;padding:1rem 0;font-size:1.6rem;letter-spacing:0.5px}
+.site-title a{color:var(--text);text-decoration:none}
+.site-nav{display:flex;gap:1rem;align-items:center}
+.site-nav a{color:var(--muted);text-decoration:none;font-size:0.95rem}
+
+/* Paper card that holds the main content */
+.paper{
+  background:var(--paper);
+  border-radius:var(--radius);
+  padding:2rem 2.25rem;
+  box-shadow:0 10px 30px rgba(16,24,40,0.06), 0 2px 6px rgba(16,24,40,0.04);
+  border:1px solid rgba(0,0,0,0.06);
+  /* subtle ruled-paper lines */
+  background-image:repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.03) 0px,
+    rgba(0,0,0,0.03) 1px,
+    transparent 1px,
+    transparent 36px
+  );
+}
+
+.hero{padding:0 0 1rem 0}
+.subtitle{color:var(--muted);font-size:0.97rem;margin-top:0.25rem}
+
+.posts{display:flex;flex-direction:column;gap:1.25rem;margin-top:1rem}
+.post-list-item{padding:0.75rem;border-radius:8px;background:transparent;border-left:4px solid rgba(23,102,209,0.08)}
+.post-list-item h3{margin:0 0 0.25rem 0;font-size:1.15rem}
+.post-list-item a{color:var(--accent);text-decoration:none}
+
+.meta{font-size:0.9rem;color:var(--muted);margin:0.2rem 0}
+
+article{font-size:1.12rem}
+article h2{font-size:1.55rem;margin-top:0}
+article h3{font-size:1.15rem}
+
+.site-footer{border-top:1px solid rgba(0,0,0,0.04);margin-top:2rem;padding:1rem 0;color:var(--muted);font-size:0.9rem}
+
+code{background:#fbfbfb;padding:0.15rem 0.35rem;border-radius:4px;font-family:ui-monospace,Menlo,monospace;font-size:0.95em}
+
+@media (min-width:920px){
+  .site-header{display:flex;align-items:center;justify-content:space-between}
+  .container{margin-top:3rem}
+}
+
+/* Small decorative accent for site title */
+.site-title a::after{content:"";display:inline-block;margin-left:0.6rem;width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#4ea1ff)}
+
+/* Make links a little cleaner */
+a{cursor:pointer}
+
+/* Keep print-friendly (removes background lines when printing) */
+@media print{
+  body{background:#fff}
+  .paper{box-shadow:none;background-image:none;border:1px solid #ddd}
+}
