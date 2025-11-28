@@ -23,25 +23,7 @@
       <nav class="site-nav">
         <a href="/">Home</a>
         <a href="/about.html">About</a>
-  <a href="/gym/">Gym</a>
-  <a href="/gym/diet/">Diet</a>
-  <a href="/gym/routine/">Routine</a>
-  <a href="/blog/">Blog</a>
-  <a href="/tech/">Tech</a>
-  <a href="/thoughts/">Thoughts</a>
-  <a href="/time-table/">Time-table</a>
-  <a href="/linkedin/">LinkedIn</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container paper">
-    <section class="hero">
-      <h2>Diet Planner & Calorie Calculator</h2>
-      <p class="subtitle">Customize your diet and calculate your daily calorie needs. Choose from sample diets or build your own!</p>
-    </section>
-    <section class="diet-calc">
-      <h3>Calorie Calculator</h3>
+        <a href="/gym/">Gym</a>
       <form id="calorieForm" onsubmit="event.preventDefault(); calcCalories();">
         <label>Weight (kg): <input type="number" id="weight" min="30" max="200" required></label>
         <label>Height (cm): <input type="number" id="height" min="120" max="250" required></label>
@@ -84,27 +66,17 @@
         <tr><td>Weight Loss</td><td>Oats, Egg Whites</td><td>Grilled Chicken, Veggies</td><td>Paneer, Salad</td><td>Fruits, Nuts</td><td>1500</td></tr>
         <tr><td>Muscle Gain</td><td>Omelette, Toast</td><td>Rice, Chicken, Dal</td><td>Fish, Quinoa</td><td>Banana, Peanut Butter</td><td>2500</td></tr>
         <tr><td>Vegetarian</td><td>Poha, Milk</td><td>Dal, Roti, Sabzi</td><td>Paneer, Rice</td><td>Chana, Fruits</td><td>1800</td></tr>
-      </table>
-      <p>Adjust portions and food choices as per your needs. For a fully custom plan, use the calculator above and consult a nutritionist for best results.</p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <nav class="footer-links">
-        <a href="/">Home</a>
-        <a href="/about.html">About</a>
-        <a href="/gym/">Gym</a>
-        <a href="/gym/diet/">Diet</a>
-        <a href="/gym/routine/">Routine</a>
-        <a href="/blog/">Blog</a>
-        <a href="/tech/">Tech</a>
-        <a href="/thoughts/">Thoughts</a>
-        <a href="/time-table/">Time-table</a>
-        <a href="/linkedin/">LinkedIn</a>
-      </nav>
-      <p style="margin-top:0.6rem;">© 2025 — Archit Jain. Made with ♥ — static HTML &amp; CSS.</p>
-    </div>
+      <style>
+        .diet-table { width:100%; border-collapse:collapse; margin:1.5rem 0; }
+        .diet-table th, .diet-table td { border:1px solid #ff6f91; padding:0.5rem; text-align:left; }
+        .diet-table th { background:linear-gradient(90deg,#ffb86f 0%,#ff6f91 100%); color:#fff; font-weight:700; }
+        .diet-calc { margin:1.5rem 0; padding:1.2rem; background:linear-gradient(90deg,#ffe3ec 0%,#e3eafc 100%); border-radius:14px; box-shadow:0 2px 12px #ffb86f33; }
+        .diet-calc label { display:block; margin:0.5rem 0 0.2rem; color:#ff1766; font-weight:600; }
+        .diet-calc input, .diet-calc select { margin-bottom:0.5rem; border-radius:6px; border:1.5px solid #ffb86f; padding:0.3rem 0.6rem; }
+        .diet-calc-result { font-weight:bold; margin-top:0.5rem; color:#1766d1; font-size:1.13rem; }
+        button[type="submit"] { background:linear-gradient(90deg,#ff6f91 0%,#ffb86f 100%); color:#fff; font-weight:700; border:none; border-radius:8px; padding:0.5rem 1.2rem; box-shadow:0 2px 8px #ffb86f44; cursor:pointer; transition:background 0.2s; }
+        button[type="submit"]:hover { background:linear-gradient(90deg,#1766d1 0%,#6fd1b8 100%); }
+      </style>
   </footer>
 </body>
 </html>
